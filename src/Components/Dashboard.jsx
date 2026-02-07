@@ -680,7 +680,7 @@ const handleHistoryScroll = (e) => {
         </p>
       </div>
 
-      <div className="rounded-3xl w-full max-w-7xl mx-auto px-6">
+      <div className="rounded-3xl w-full max-w-7xl mx-auto px-6 mb-6">
         <div
           className="flex items-center gap-3 mb-12 justify-center"
           data-aos="fade-up"

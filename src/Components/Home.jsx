@@ -1,14 +1,31 @@
 import "./style.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
-
+import howItWorks from "../assets/MediaDL.mp4";
 
 function Home() {
 
     const [uptime, setUptime] = useState(0);
     const [latency, setLatency] = useState(0);
     const [wireless, setWireless] = useState(0);
+
+
+
+    const [open, setOpen] = useState(false);
+    const closeButtonRef = useRef(null);
+
+    useEffect(() => {
+        function onKey(e) {
+            if (e.key === 'Escape' && open) setOpen(false);
+        }
+        if (open) {
+            document.addEventListener('keydown', onKey);
+            // move focus to close button for accessibility
+            setTimeout(() => closeButtonRef.current?.focus(), 0);
+        }
+        return () => document.removeEventListener('keydown', onKey);
+    }, [open]);
 
     useEffect(() => {
         const duration = 1200;
@@ -27,7 +44,7 @@ function Home() {
         requestAnimationFrame(tick);
     }, []);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     return (
 
@@ -97,14 +114,16 @@ function Home() {
                                 Open Dashboard
                             </button>
 
-                            <button className="
-    btn-outline
-    w-full sm:w-auto
-    text-base sm:text-lg
-    px-5 sm:px-6 md:px-8
-    py-3
-    flex items-center justify-center gap-2
-  ">
+
+
+                            <button
+
+                                onClick={() => setOpen(true)}
+                                aria-haspopup="dialog"
+                                aria-controls="howItWorksModal"
+                                type="button"
+
+                                className=" btn-outline w-full sm:w-auto text-base sm:text-lg  px-5 sm:px-6 md:px-8  py-3 flex items-center justify-center gap-2">
                                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
@@ -121,6 +140,37 @@ function Home() {
                                 </svg>
                                 Watch Demo
                             </button>
+
+
+                            {open && (
+                                <div id="howItWorksModal" role="dialog" aria-modal="true" aria-labelledby="howItWorksTitle" className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                                    {/* backdrop */}
+                                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
+
+                                    <div className="relative bg-white rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden transform transition-all">
+                                        <div className="flex items-center justify-between p-1 md:p-3 border-b border-gray-100">
+                                            <h3 id="howItWorksTitle" className="text-md md:text-lg font-black text-gray-900 pl-2 md:pl-0">How It Works</h3>
+                                            <button
+                                                ref={closeButtonRef}
+                                                onClick={() => setOpen(false)}
+                                                aria-label="Close video"
+                                                className="ml-3 bg-gray-100 active:scale-90 hover:bg-gray-200 mr-2 md:mr-0 text-gray-800 w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+                                            >
+                                                <i className="fa-solid fa-xmark text-red-500 text-sm md:text-lg"></i>
+                                            </button>
+                                        </div>
+
+                                        <div className="bg-black">
+                                            <video controls autoPlay className="w-full max-h-[80vh] bg-black">
+                                                <source src={howItWorks} type="video/mp4" />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+
                         </div>
 
 
