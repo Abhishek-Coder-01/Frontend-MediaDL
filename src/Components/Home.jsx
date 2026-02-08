@@ -3,6 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import howItWorks from "../assets/MediaDL.mp4";
+import API_BASE from "./API";
+
+
+
 
 function Home() {
 
@@ -10,6 +14,57 @@ function Home() {
     const [latency, setLatency] = useState(0);
     const [wireless, setWireless] = useState(0);
 
+
+
+
+
+    // STATES
+    const [showModal, setShowModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // REF for stopping retry
+    const retryRef = useRef(null);
+
+    // OPEN DASHBOARD
+    const openDashboard = () => {
+        if (isLoading) {
+            setShowModal(true);
+            return;
+        }
+        setIsLoading(true);   // 🔄 button loader
+        setShowModal(true);  // 📦 popup
+        checkServer();
+    };
+
+    // CLOSE MODAL (❌)
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    // CHECK SERVER
+    const checkServer = async () => {
+        try {
+            await fetch(API_BASE, { mode: "no-cors" });
+
+            // server ready
+            setIsLoading(false);
+            retryRef.current = null;
+            navigate("/dashboard");
+
+        } catch {
+            // retry after 5 sec
+            retryRef.current = setTimeout(checkServer, 5000);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (retryRef.current) {
+                clearTimeout(retryRef.current);
+                retryRef.current = null;
+            }
+        };
+    }, []);
 
 
     const [open, setOpen] = useState(false);
@@ -87,32 +142,89 @@ function Home() {
   gap-3 sm:gap-4 md:gap-6
   mb-12
 " data-aos="fade-up" data-aos-delay="400" data-aos-duration="900">
+                            {/* BUTTON */}
                             <button
-                                onClick={() => navigate("/dashboard")}
-                                className="
-        btn-primary
-        w-full sm:w-auto
-        text-base sm:text-lg
-        px-5 sm:px-6 md:px-8
-        py-3
-        flex items-center justify-center gap-2
-      "
+                                onClick={openDashboard}
+                                className="btn-primary w-full sm:w-auto text-base sm:text-lg px-5 sm:px-6 md:px-8 py-3 flex items-center justify-center gap-2"
                             >
-                                <svg
-                                    className="w-5 h-5 sm:w-6 sm:h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                    />
-                                </svg>
-                                Open Dashboard
+                                {isLoading ? (
+                                    // 🔄 BUTTON LOADER
+                                    <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
+                                        <circle
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="3"
+                                            strokeDasharray="40"
+                                            strokeDashoffset="20"
+                                            strokeLinecap="round"
+                                        />
+                                    </svg>
+                                ) : (
+                                    // ➡️ NORMAL ARROW
+                                    <svg
+                                        className="w-5 h-5 sm:w-6 sm:h-6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                        />
+                                    </svg>
+                                )}
+
+                                {isLoading ? "Loading…" : "Open Dashboard"}
                             </button>
+
+
+                            {/* MODAL */}
+                            {showModal && (
+                                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                                    <div className="bg-white rounded-xl p-8 w-[320px] text-center relative">
+
+                                        <button
+                                            onClick={closeModal}
+                                            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+                                        >
+                                            &times;
+                                        </button>
+
+                                        {/* MATERIAL LOADER */}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 9.8 9.8"
+                                            className="w-12 h-12 mx-auto animate-spin"
+                                            style={{ animationDuration: "1.4s" }}
+                                        >
+                                            <circle
+                                                cx="50%"
+                                                cy="50%"
+                                                r="4"
+                                                fill="none"
+                                                stroke="#1a73e8"
+                                                strokeWidth="10%"
+                                                strokeLinecap="round"
+                                                strokeDasharray="25"
+                                                strokeDashoffset="12"
+                                            />
+                                        </svg>
+
+                                        <p className="mt-4 font-medium">Preparing your dashboard</p>
+                                        <p className="text-sm text-gray-500">
+                                            This may take a moment on your first visit. Please wait…
+                                        </p>
+
+
+                                    </div>
+                                </div>
+                            )}
+
 
 
 
