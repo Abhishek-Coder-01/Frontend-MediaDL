@@ -294,28 +294,28 @@ function Home() {
                             data-aos-duration="900"
                         >
                             <div className="stat-box text-center">
-                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
+                                <div className="stat-number text-[23px]  md:text-[32px] font-bold">
                                     {uptime.toFixed(1)}%
                                 </div>
-                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                <div className="text-[14px] md:text-[15px] font-semibold text-gray-600 mono">
                                     DOWNLOAD SUCCESS
                                 </div>
                             </div>
 
                             <div className="stat-box text-center">
-                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
+                                <div className="stat-number text-[23px]  md:text-[32px] font-bold">
                                     {latency.toFixed(0)}ms
                                 </div>
-                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                <div className="text-[14px] md:text-[15px] font-semibold text-gray-600 mono">
                                     PROCESSING SPEED
                                 </div>
                             </div>
 
                             <div className="stat-box text-center">
-                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
+                                <div className="stat-number text-[23px]  md:text-[32px] font-bold">
                                     {wireless.toFixed(0)}%
                                 </div>
-                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                <div className="text-[14px] md:text-[15px] font-semibold text-gray-600 mono">
                                     ONLINE BASED
                                 </div>
                             </div>
