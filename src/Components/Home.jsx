@@ -287,26 +287,40 @@ function Home() {
 
 
                         {/* <!-- Stats --> */}
-                        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto mb-12 text-[28px]" data-aos="fade-up" data-aos-delay="600" data-aos-duration="900">
-                            <div className="stat-box">
-                                <div className="stat-number text-[28px] md:text-[48px]">
+                        <div
+                            className="grid grid-cols-3 gap-3 max-w-xl mx-auto mb-10 text-[14px] sm:text-[16px]"
+                            data-aos="fade-up"
+                            data-aos-delay="600"
+                            data-aos-duration="900"
+                        >
+                            <div className="stat-box text-center">
+                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
                                     {uptime.toFixed(1)}%
                                 </div>
-                                <div className="text-sm font-semibold text-gray-600 mono">DOWNLOAD SUCCESS</div>
+                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                    DOWNLOAD SUCCESS
+                                </div>
                             </div>
 
-                            <div className="stat-box">
-                                <div className="stat-number text-[28px] md:text-[48px]">
-                                    {latency.toFixed(0)}ms</div>
-                                <div className="text-sm font-semibold text-gray-600 mono">PROCESSING SPEED</div>
+                            <div className="stat-box text-center">
+                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
+                                    {latency.toFixed(0)}ms
+                                </div>
+                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                    PROCESSING SPEED
+                                </div>
                             </div>
 
-                            <div className="stat-box">
-                                <div className="stat-number text-[28px] md:text-[48px]">
-                                    {wireless.toFixed(0)}%</div>
-                                <div className="text-sm font-semibold text-gray-600 mono">ONLINE BASED</div>
+                            <div className="stat-box text-center">
+                                <div className="stat-number text-[20px] sm:text-[24px] md:text-[32px] font-bold">
+                                    {wireless.toFixed(0)}%
+                                </div>
+                                <div className="text-[13px] sm:text-xs font-semibold text-gray-600 mono">
+                                    ONLINE BASED
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                     {/* <!-- Device Mockup --> */}
